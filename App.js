@@ -5,7 +5,7 @@ import AppNavigation from './navigation/appNavigation'
 import { Provider } from 'react-redux'
 import { Store } from './redux/Store'
 import Toast ,{ BaseToast }from 'react-native-toast-message'
-// import {image} from ""
+
 
 const App = () => {
   const toastConfig = {
