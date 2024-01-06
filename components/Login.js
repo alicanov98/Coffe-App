@@ -21,7 +21,6 @@ const Login = ({ navigation }) => {
   const [error, setError] = useState("");
 
   const handleLogin = () => {
-    console.log(username, password);
     if (username == "coffee" && password == "coffee") {
       setUsername("");
       setPassword("");
@@ -40,6 +39,17 @@ const Login = ({ navigation }) => {
       setError("Incorrect username or password.");
     }
   };
+
+  const handleUsernameChange = (text) => {
+    setUsername(text);
+    setError("");
+  };
+
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+    setError(""); 
+  };
+
 
   return (
     <View
@@ -133,8 +143,9 @@ const Login = ({ navigation }) => {
               marginBottom: 20,
               paddingLeft: 10,
             }}
+            value={username}
             placeholder="Name"
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={handleUsernameChange}
           />
           <TextInput
             style={{
@@ -147,9 +158,10 @@ const Login = ({ navigation }) => {
               marginBottom: 20,
               paddingLeft: 10,
             }}
+            value={password}
             placeholder="Şifre"
             secureTextEntry
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={handlePasswordChange}
           />
           {error ? (
             <Text style={{ color: "red", marginBottom: 10, fontSize: 18 }}>
