@@ -100,7 +100,7 @@ const navigation=useNavigation()
               lineHeight: 24,
               color: "white",
               fontWeight: 600,
-              oapacity: 0.6,
+              opacity: 0.6,
             }}
           >
             Volume

@@ -22,6 +22,7 @@ import {
 } from "@expo/vector-icons";
 import CoffeCards from "../components/CoffeCards";
 
+
 const HomeScreen = () => {
   const { width, height } = Dimensions.get("window");
   const [activeCategory, setActiveCategory] = useState(1);
@@ -141,8 +142,11 @@ const HomeScreen = () => {
             renderItem={({ item }) => {
               let isActive = item.id == activeCategory;
               let activeTextClass = isActive
-                ? "color: rgb(255, 255, 255)"
-                : "color: rgb(55, 65, 81)";
+              ? {color: 'rgb(255, 255, 255)'}
+              : {color: 'rgb(55, 65, 81)'};
+
+
+
               return (
                 <TouchableOpacity
                   onPress={() => setActiveCategory(item.id)}
@@ -160,7 +164,7 @@ const HomeScreen = () => {
                   <Text
                     style={{
                       fontWeight: 600,
-                      activeTextClass,
+                      ...activeTextClass,
                     }}
                   >
                     {item.title}

@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -16,10 +16,34 @@ import {
   ShoppingBagIcon,
   StarIcon,
 } from "react-native-heroicons/outline";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  adToCart,
+  decrease,
+  increase,
+  addToFavoriCart,
+  cartTotalPrice,
+  cartTotal,
+} from "../redux/Slice";
+import Toast from "react-native-toast-message";
+
 const ProductScreen = (props) => {
-  const navigatiton = useNavigation();
+  const navigation = useNavigation();
   const item = props.route.params;
   const [size, setSize] = useState("small");
+  const dispatch = useDispatch();
+  const counter = useSelector((state) => state.cartData.count);
+  const [press, setPress] = useState(false);
+  const carts = useSelector((state) => state.cartData.cart);
+
+  useEffect(() => {
+    if ((carts.length = 0)) {
+      setPress(false);
+    } else {
+      setPress(true);
+    }
+  }, [carts]);
 
   return (
     <View
@@ -40,7 +64,7 @@ const ProductScreen = (props) => {
       />
       <SafeAreaView
         style={{
-          marginTop: 25,
+          marginTop: 40,
         }}
       >
         <View
@@ -52,10 +76,10 @@ const ProductScreen = (props) => {
             marginRight: 16,
           }}
         >
-          <TouchableOpacity onPress={() => navigatiton.goBack()}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <ArrowLeftCircleIcon size={50} strokeWidth={1.2} color={"white"} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => dispatch(addToFavoriCart(item))}>
             <HeartIcon size={40} color={"white"} />
           </TouchableOpacity>
         </View>
@@ -295,73 +319,104 @@ const ProductScreen = (props) => {
           <View
             style={{
               flexDirection: "row",
-              alignItems:'center',
-              gap:20,
-              borderWidth:1,
-              borderRadius:9999,
-             borderColor:'rgb(55 65 81)',
-             marginLeft:16,
-             paddingLeft:10,
-             paddingRight:10,
-             paddingBottom:5,
-             paddingTop:5
+              alignItems: "center",
+              gap: 20,
+              borderWidth: 1,
+              borderRadius: 9999,
+              borderColor: "rgb(55 65 81)",
+              marginLeft: 16,
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingBottom: 5,
+              paddingTop: 5,
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(decrease());
+              }}
+            >
               <MinusIcon size="20" color={"#2e2723"} />
             </TouchableOpacity>
             <Text
               style={{
                 color: "#2e2723",
-                fontSize:18,
-                lineHeight:28,
-                fontWeight:800,
-
+                fontSize: 18,
+                lineHeight: 28,
+                fontWeight: 800,
               }}
             >
-              2
+              {counter}
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(increase());
+              }}
+            >
               <PlusIcon size="20" color={"#2e2723"} />
             </TouchableOpacity>
           </View>
         </View>
-          {/* Buy now button */}
-          <View
+        {/* Buy now button */}
+        <View
           style={{
-            flexDirection:'row',
-            justifyContent:'space-between',
-         paddingLeft:20,
-         gap:16
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingLeft: 20,
+            gap: 16,
           }}
-          >
-            <TouchableOpacity
+        >
+          <TouchableOpacity
             style={{
-              padding:20,
-              borderWidth:1,
-              borderRadius:9999,
-             borderColor:'rgb(156 163 175)',
+              padding: 20,
+              borderWidth: 1,
+              borderRadius: 9999,
+              borderColor: "rgb(156 163 175)",
             }}
+          >
+<ShoppingBagIcon
+  size={30}
+  color={"gray"}
+  onPress={() => {
+    if (carts.length === 0) {
+      Toast.show({
+        type: "info",
+        text1: "Cart is empty!",
+        position: "top",
+        topOffset: 100,
+      });
+    } else {
+      navigation.navigate("cart");
+    }
+  }}
+/>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              justifyContent: "center",
+              flex: 1,
+              marginRight: 12,
+              borderRadius: 9999,
+              backgroundColor: "#c99d6b",
+            }}
+            onPress={() => {
+              dispatch(adToCart(item));
+              dispatch(cartTotalPrice());
+              dispatch(cartTotal());
+            }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 18,
+                lineHeight: 28,
+                fontWeight: 600,
+              }}
             >
-            <ShoppingBagIcon size={30} color={"gray"}/>
-            </TouchableOpacity>
-            <TouchableOpacity style={{
-              justifyContent:'center',
-              flex:1,
-              marginRight:12,
-              borderRadius:9999,
-              backgroundColor:"#c99d6b"
-            }}>
-              <Text style={{
-                textAlign:'center',
-                fontSize:18,
-                lineHeight:28,
-                fontWeight:600,
-              }}>
-                Buy now
-              </Text>
-            </TouchableOpacity>
-          </View>
+              Buy now
+            </Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     </View>
   );
