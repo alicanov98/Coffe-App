@@ -8,7 +8,7 @@ import {
   HeartIcon as HeartOutline,
   ShoppingBagIcon as BagOutline,
   UserIcon,
-  UserCircleIcon,
+  DocumentCheckIcon
 } from "react-native-heroicons/outline";
 import {
   HomeIcon as HomeSolid,
@@ -22,6 +22,7 @@ import Favorite from "../screens/Favorite";
 import Cart from "../screens/Cart";
 import Bill from "../components/Bill";
 import Login from "../components/Login";
+import About from "../components/About";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -92,6 +93,13 @@ function HomeTabs() {
           tabPress: () => setIsCartVisible(false),
         }}
       />
+      <Tab.Screen
+        name="about"
+        component={About}
+        listeners={{
+          tabPress: () => setIsCartVisible(false),
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -116,6 +124,12 @@ const menuIcons = (route, focused) => {
       <UserIcon size={30} strokeWidth={2} color={"#c99d6b"} />
     ) : (
       <UserIcon size={30} strokeWidth={2} color={"#fff"} />
+    );
+  }else if (route.name === "about") {
+    icon = focused ? (
+      <DocumentCheckIcon size={30} strokeWidth={2} color={"#c99d6b"} />
+    ) : (
+      <DocumentCheckIcon size={30} strokeWidth={2} color={"#fff"} />
     );
   }
 

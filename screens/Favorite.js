@@ -57,7 +57,7 @@ const Favorite = () => {
               color: "#c99d6b",
             }}
           >
-            Favorite
+            FAVORITS
           </Text>
           <TouchableOpacity>
             <PencilSquareIcon size={30} color={"#c99d6b"} />
@@ -78,7 +78,7 @@ const Favorite = () => {
               color: "#c99d6b",
             }}
           >
-           My Favorite drinks
+           List Of My Favorite Coffees.
           </Text>
         </View>
         {/* Cart items */}

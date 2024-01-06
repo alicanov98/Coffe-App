@@ -62,7 +62,7 @@ const Cart = () => {
               color: "#c99d6b",
             }}
           >
-            Cart
+            CART
           </Text>
           <TouchableOpacity>
             <PencilSquareIcon size={30} color={"#c99d6b"} />
