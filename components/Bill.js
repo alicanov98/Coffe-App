@@ -129,7 +129,7 @@ const Bill = () => {
                 color: "rgb(55, 65, 81)",
               }}
             >
-              Coffe Baku
+              COFFEELAND
             </Text>
             <Image
               source={require("../assets/wing.png")}
